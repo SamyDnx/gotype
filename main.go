@@ -57,7 +57,7 @@ func main() {
 			disableRawMode(oldState)
 			fmt.Printf("\nTest finished in %.2f seconds\n", delta.Seconds())
 			printStats(&user, text, delta.Seconds())
-			fmt.Printf("DEBUG — contenu de testsData :\n%s\n", testsData)
+			// fmt.Printf("DEBUG — contenu de testsData :\n%s\n", testsData)
 			return
 		}
 
