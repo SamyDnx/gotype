@@ -1,35 +1,17 @@
 package main
 
 import (
-	"bufio"
 	"math/rand"
-	"os"
+	"strings"
 	"time"
 )
 
-func getRandomTest(path string) (string, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return "", err
+func getRandomTest() string {
+	lines := strings.Split(strings.TrimSpace(testsData), "\n")
+	if len(lines) == 0 {
+		return ""
 	}
-	defer file.Close()
 
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	sc := bufio.NewScanner(file)
-	var candidate string
-	c := 0
-
-	for sc.Scan() {
-		line := sc.Text()
-		c += 1
-		if r.Intn(c) == 0 {
-			candidate = line
-		}
-	}
-
-	if err := sc.Err(); err != nil {
-		return "", err
-	}
-
-	return candidate, nil
+	return strings.TrimSpace(lines[r.Intn(len(lines))])
 }

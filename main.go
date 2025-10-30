@@ -1,9 +1,13 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"time"
 )
+
+//go:embed tests.txt
+var testsData string
 
 // store user progress
 type UserTextProgress struct {
@@ -18,14 +22,8 @@ const NEUTRAL string = "\033[37m"
 const RESET string = "\033[2K"
 const CLEAR string = "\033[2J"
 
-// path to file with tests sentences
-const PATH string = "tests.txt"
-
 func main() {
-	test, err := getRandomTest(PATH)
-	if err != nil {
-		fmt.Printf("Failed reading the file: %v\n", err)
-	}
+	test := getRandomTest()
 
 	text := []rune(test)
 	user := UserTextProgress{
