@@ -37,7 +37,7 @@ func enableRawMode() (*termios, error) {
 	// disble canonical mode and echo
 	newState.Lflag &^= syscall.ICANON | syscall.ECHO
 
-	// set the new terminal attricutes
+	// set the new terminal attributes
 	_, _, errno = syscall.Syscall(syscall.SYS_IOCTL, uintptr(fd),
 		uintptr(syscall.TCSETS), uintptr(unsafe.Pointer(&newState)))
 	if errno != 0 {
