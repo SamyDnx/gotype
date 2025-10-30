@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 // store user progress
@@ -23,6 +24,10 @@ func main() {
 		idx:      0,
 	}
 
+	nonLetterRune := 0
+	timeStarted := false
+	var start time.Time
+
 	oldState, err := enableRawMode()
 	if err != nil {
 		fmt.Printf("Failed to enable raw mode: %v\n", err)
@@ -32,16 +37,27 @@ func main() {
 
 	// 1st text print
 	for _, r := range text {
+		if (r < 65 && r > 90) || (r < 97 && r > 122) {
+			nonLetterRune += 1
+		}
 		fmt.Printf("%s", string(r))
 	}
 	for {
 		if user.idx >= len(text) {
+			end := time.Now()
+			delta := end.Sub(start)
 			disableRawMode(oldState)
-			fmt.Println("\nTest finished !")
+			fmt.Printf("\nTest finished in %.2f seconds\n ", delta.Seconds())
 			return
 		}
 
 		buf, n := readInput()
+
+		// check timer
+		if !timeStarted {
+			start = time.Now()
+			timeStarted = true
+		}
 
 		// check typed letter
 		if n > 0 {
