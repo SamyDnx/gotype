@@ -71,16 +71,22 @@ func main() {
 
 		// check typed letter
 		if n > 0 {
-			if buf[0] == byte(text[user.idx]) {
-				user.progress[user.idx] = 1
-			} else {
-				user.progress[user.idx] = -1
-			}
-
 			// extiting with CTRL+D (4)
 			if buf[0] == 4 {
 				fmt.Println("\nExiting...")
 				return
+			} else if buf[0] == 127 {
+				// if start of test
+				if user.idx <= 0 {
+					continue
+				}
+				// handle backspace
+				user.progress[user.idx-1] = 0
+				user.idx -= 2
+			} else if buf[0] == byte(text[user.idx]) {
+				user.progress[user.idx] = 1
+			} else {
+				user.progress[user.idx] = -1
 			}
 		}
 		renderText(&user, text)
@@ -94,11 +100,11 @@ func renderText(user *UserTextProgress, text []rune) {
 	fmt.Printf("%s\033[1;1H", CLEAR)
 	for i, r := range text {
 		if user.progress[i] > 0 {
-			fmt.Printf("%s%s%s", GREEN, string(r), NEUTRAL)
+			fmt.Print(GREEN, string(r), NEUTRAL)
 		} else if user.progress[i] < 0 {
-			fmt.Printf("%s%s%s", RED, string(r), NEUTRAL)
+			fmt.Print(RED, string(r), NEUTRAL)
 		} else {
-			fmt.Printf("%s", string(r))
+			fmt.Print(string(r))
 		}
 	}
 	fmt.Printf("\033[1;%dH", user.idx+2)
