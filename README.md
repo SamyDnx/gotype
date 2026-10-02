@@ -27,8 +27,18 @@
 Ensure you have [Go](https://golang.org/) installed (version 1.18+ recommended), then install `gotype` directly via `go install`:
 
 ```bash
-go install [github.com/SamyDnx/gotype@latest](https://github.com/SamyDnx/gotype@latest)
+go install github.com/SamyDnx/gotype@latest
+```
 
+Or clone and build from source:
+
+```bash
+# Clone the repository
+git clone https://github.com/SamyDnx/gotype.git
+cd gotype
+
+# Build binary
+go build -o gotype main.go
 ```
 
 ---
